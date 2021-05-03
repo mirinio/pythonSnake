@@ -12,7 +12,7 @@ class Snake:
     
 
     def draw(self):
-        self.parent_screen.fill((110,110,5))
+        self.parent_screen.fill((111,162,171))
         self.parent_screen.blit(self.block, (self.x, self.y))
         pygame.display.flip()
 
@@ -21,7 +21,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.surface = pygame.display.set_mode((1000, 500))
-        self.surface.fill((110,110,5))
+        self.surface.fill((111,162,171))
         pygame.display.flip()
         self.snake = Snake(self.surface)
         self.snake.draw()
