@@ -2,6 +2,7 @@ import pygame
 import time 
 from pygame.locals import *
 
+#hallo
 
 class Snake:
     def __init__(self, parent_screen):
