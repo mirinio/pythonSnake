@@ -10,7 +10,7 @@ class Snake:
         self.x = 100
         self.y = 100
     
-
+    # Hallo 
     def draw(self):
         self.parent_screen.fill((111,162,171))
         self.parent_screen.blit(self.block, (self.x, self.y))
