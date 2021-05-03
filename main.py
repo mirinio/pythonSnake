@@ -3,7 +3,7 @@ import time
 from pygame.locals import *
 
 #hallo
-
+#hallo 2
 class Snake:
     def __init__(self, parent_screen):
         self.parent_screen = parent_screen
