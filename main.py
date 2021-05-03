@@ -2,7 +2,9 @@ import pygame
 import time 
 from pygame.locals import *
 
-
+#Erion hallo
+#Erion hallo 2
+#amir kommentar 
 class Snake:
     def __init__(self, parent_screen):
         self.parent_screen = parent_screen
