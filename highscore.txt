@@ -1,0 +1,4 @@
+Platz 1,Name,Punkte
+Platz 2,Name,Punkte
+Platz 3,Name,Punkte
+Platz 4,Name,Punkte
