@@ -3,6 +3,8 @@ import pygame
 from settings import *
 
 class Snake:
+    """Schlangenklasse mit all den bildern und der bewegungslogik """
+
     def __init__(self, parent_screen, length = 3):
         self.parent_screen = parent_screen
         
@@ -41,7 +43,7 @@ class Snake:
         
 
     def draw(self):
-
+        """Zeichnet die Schlange jenach bewegungsrichtung anders"""
         self.update_head_img()
         self.update_tail_img()
         for i in range(self.length):
@@ -80,6 +82,7 @@ class Snake:
         
 
     def update_head_img(self):
+        """stellt fest in welche richtung der kopf schauen soll"""
         if self.x[0] > self.x[1]:
             self.head_img = self.head_img_right  
         elif self.x[0] < self.x[1]:
@@ -90,6 +93,7 @@ class Snake:
             self.head_img = self.head_img_up
 
     def update_tail_img(self):
+        """stellt fest in welche richtung der Schwanz schauen soll"""
         if self.x[self.length-2] > self.x[self.length-1]:
             self.tail_img = self.tail_img_right
         elif self.x[self.length-2] < self.x[self.length-1]:
@@ -101,29 +105,35 @@ class Snake:
 
 
     def move_left(self):
+        """bewegt die schlange nach links"""
         if self.x[0] < 0:
             self.x[0] = SCREEN_WIDTH
         else:
             self.x[0] -= BLOCK_SIZE
+
     def move_right(self):
+        """bewegt die schlange nach rechts"""
         if self.x[0] > SCREEN_WIDTH:
             self.x[0] = 0
         else:
             self.x[0] += BLOCK_SIZE
 
     def move_up(self):
+        """bewegt die schlange nach oben"""
         if self.y[0] < 0:
             self.y[0] = SCREEN_HEIGHT
         else:
             self.y[0] -= BLOCK_SIZE
+
     def move_down(self):
+        """bewegt die schlange nach unten"""
         if self.y[0] > SCREEN_HEIGHT:
             self.y[0] = 0
         else:
             self.y[0] += BLOCK_SIZE
 
     def move(self):
-
+        """bewegt die schlange"""
         for i in range(self.length-1,0,-1):
             self.x[i] = self.x[i - 1]
             self.y[i] = self.y[i - 1]
@@ -139,11 +149,13 @@ class Snake:
         self.draw()
 
     def grow(self):
+        """macht die schlange grösser"""
         self.length += 1
         self.x.append(-1)
         self.y.append(-1)
 
     def move_direction_check(self, direction):
+        """stellt fest das man nicht rückwerts in sich selbst bewegen kann"""
         if  direction == "UP" and not self.move_direction == "DOWN" or \
         direction == "DOWN" and not self.move_direction == "UP" or \
         direction == "LEFT" and not self.move_direction == "RIGHT" or \

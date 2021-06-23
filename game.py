@@ -8,13 +8,12 @@ from settings import *
 from view import *
 
 class Game:
+    """Das ist die Game Klasse welche die gane logik steuert"""
+
     def __init__(self):
         pygame.init() 
-        
         self.font_name = 'arial'
-
         pygame.mixer.init()
-       
         pygame.display.set_caption("Beach Snake")
         self.display = pygame.Surface(SCREEN_SIZE)
         self.screen = pygame.display.set_mode(SCREEN_SIZE) 
@@ -28,12 +27,12 @@ class Game:
         self.player_name = ""
     
     def render_background(self):
+        """zeichnet den hintergrund"""
         bg = pygame.image.load("resources/beach.jpg")
         self.screen.blit(bg, (0,0))
 
     def game_Logic(self):
-      
-
+        """Hier ist die spiel logik, z.b. kollision von item und schlange"""
         for item in self.itemManager.items:
             if self.is_collision(self.snake.x[0], self.snake.y[0], item.x, item.y):
                 #sound = pygame.mixer.Sound("resources/eat.mp3")
@@ -53,11 +52,13 @@ class Game:
         pygame.display.update()
 
     def is_collision(self, x1, y1, x2, y2):
+        """eine vereinfachte kollisions erkennung"""
         if x1 >= x2 and x1 < x2 + BLOCK_SIZE:
             if y1 >= y2 and y1 < y2 + BLOCK_SIZE:
                 return True
 
     def run(self):
+        """Gameloop der nach anzahl FPS (frames per second) lauft"""
         while self.running:
             self.menu.show()
             
@@ -71,6 +72,7 @@ class Game:
 
 
     def game_over(self):
+        """game over logik der das ende der runde einleutet"""
         self.stop_background_music()
         sound = pygame.mixer.Sound("resources/gameover.mp3")
         pygame.mixer.Sound.play(sound)
@@ -79,6 +81,7 @@ class Game:
         print(self.player_name)
 
     def init_start(self):
+        """bereitet eine neue runde vor"""
         self.play_background_music()
         self.snake = Snake(self.screen)
         self.snake.draw()
@@ -86,20 +89,22 @@ class Game:
 
 
     def display_score(self):
+        """zeigt den momentanen Punktestand an"""
         font = pygame.font.SysFont(self.font_name, 30)
         score = font.render(f"Score: {self.snake.length}", True, (255, 200, 200))
-        self.screen.blit(score, (SCREEN_WIDTH-100,10))
+        self.screen.blit(score, (SCREEN_WIDTH*2/3,10))
 
     def play_background_music(self):
-        print("play music")
-        #pygame.mixer.music.load("resources/sound.mp3")
-        #pygame.mixer.music.play()
+        """Spielt die hintergrund musik ab"""
+        pygame.mixer.music.load("resources/sound.mp3")
+        pygame.mixer.music.play()
 
     def stop_background_music(self):
-        print("stop music")
-        #pygame.mixer.music.stop()
+        """stopt die hintergrund musik"""
+        pygame.mixer.music.stop()
 
     def check_events(self, input_box=None):
+        """überprüft alle events wie z.b. mause oder tastatur eingaben"""
         for event in pygame.event.get():
             if self.state == "ENTERNAME":
                 input_box.handle_event(event)
@@ -124,5 +129,3 @@ class Game:
                 self.running = False
                 self.playing = False
                 pygame.quit()
-            
-            

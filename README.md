@@ -1,2 +1,3 @@
 # pythonSnake
-simple snake game written in python
+Ein Snake spiel das mittels Python erstellt wurde.
+Dieses Spiel ist zweck eines Schulischen kleinprojekts
