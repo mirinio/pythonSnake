@@ -1,4 +1,11 @@
-Platz 1,Name,Punkte
-Platz 2,Name,Punkte
-Platz 3,Name,Punkte
-Platz 4,Name,Punkte
+50,Reto
+40,diniMuetter
+36,YALLAH HABIBI
+20,Peter
+14,ichbinbruno
+11,sss
+10,Adolf
+9,deKameraMah
+5,Hans
+5,ggg
+5,zh

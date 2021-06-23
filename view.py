@@ -17,23 +17,37 @@ class Menu:
    
     def show(self):
         self.run_display = True
-        self.game.render_background()
+        inputbox = InputBox(SCREEN_WIDTH/3,SCREEN_HEIGHT/3,500,125, self.game,"Enter Name")
+        scores = self.get_highscore()
+        if self.game.state == "GAMEOVER":
+            self.set_highscore(scores)
 
         while self.run_display:
-            self.game.check_events()
+            self.game.check_events(inputbox)
+            self.game.render_background()    
             if self.game.state == "GAMEOVER":
                self.display_gameover()
-            else:
-                self.draw_menu()
+            elif self.game.state == "MENU":
+                self.draw_menu(scores)
+            elif self.game.state == "ENTERNAME":
+                inputbox.draw()
+                inputbox.update()    
+           
+            elif self.game.state == "PLAY":
+                self.start_game()        
+
             pygame.display.update()
-        
+
     def display_gameover(self):
         font = pygame.font.SysFont(self.game.font_name, 80)
         game_over_txt = font.render(f"GAME OVER", True, (255, 255, 255))
+        
         self.game.screen.blit(game_over_txt, (SCREEN_WIDTH*0.5/2, SCREEN_HEIGHT/3))
         font_txt = pygame.font.SysFont(self.game.font_name, 50)
+        
         score_txt = font_txt.render(f"SCORE {self.game.snake.length}", True, (255, 255, 255))
         self.game.screen.blit(score_txt, (SCREEN_WIDTH*0.5/2, SCREEN_HEIGHT*1.25/3))
+        
         again_txt = font_txt.render("To play again press Enter. To exit press Escape", True, (255, 255, 255))
         self.game.screen.blit(again_txt, (SCREEN_WIDTH*0.5/2, SCREEN_HEIGHT*1.5/3))
         
@@ -42,22 +56,36 @@ class Menu:
         with open('highscore.txt', 'r') as f:
             l = [line.strip('\n').split(',') for line in f]
             return l
+    
+    def set_highscore(self, scores):
+        scores.append([str(self.game.snake.length), self.game.player_name])
+        
+        sorted_scores = sorted(scores, key=lambda x: int(x[0]), reverse=True)
+
+        with open('highscore.txt', 'r+') as f:
+            f.truncate(0)
+            for i, player in enumerate(sorted_scores):
+                f.write(player[0] + "," + player[1] + "\n")
 
     def start_game(self):
         self.run_display = False
         self.game.playing = True
+        self.game.state = "PLAY"
         self.game.init_start()
+
+    def set_enter_name_state(self):
+        self.game.state = "ENTERNAME"
+
 
     def quit_game(self):
         self.game.playing = False
         self.game.running = False
         pygame.quit()
 
-    def draw_menu(self):
+    def draw_menu(self,scores):
         self.draw_button(self.game.screen, BLACK, [self.size[0]/2 - 75, 30, 150, 50], 2, BORDER, 'Beach Snake')
-        self.draw_button(self.game.screen, BLACK, [self.size[0]/3 - 75, self.size[1] - 150, 150, 50], 2, BORDER, 'Start', self.start_game)
+        self.draw_button(self.game.screen, BLACK, [self.size[0]/3 - 75, self.size[1] - 150, 150, 50], 2, BORDER, 'Start', self.set_enter_name_state)
         self.draw_button(self.game.screen, BLACK, [self.size[0]/3*2 - 75, self.size[1] - 150, 150, 50], 2, BORDER, 'Exit', self.quit_game)
-        scores = self.get_highscore()
         self.draw_highscore(self.game.screen, BLACK, [self.size[0]/2 - self.size[0]/4, self.size[1]/2 - self.size[1]/4, self.size[0]/2, self.size[1]/2], 2, BORDER, scores)
 
     def draw_rect_border(self, screen, fillColor, sizePos, borderWidth, borderColor):
@@ -81,10 +109,8 @@ class Menu:
         self.draw_rect_border(screen, fillColor, sizePos, borderWidth, borderColor)
         self.draw_button(screen, BLACK, [sizePos[0], sizePos[1],sizePos[2], topScorer_height], 2, BORDER, 'Top scorer')
         for i, array_el in enumerate(scores):
-            col_1_rank = self.myfont.render(array_el[0], False, WHITE)
-            col_2_name = self.myfont.render(array_el[1], False, WHITE)
-            col_3_score = self.myfont.render(array_el[2], False, WHITE)
-            screen.blit(col_1_rank,[sizePos[0] + 30,sizePos[1] + topScorer_height + 30 + (i * 30)])
+            col_2_name = self.myfont.render(array_el[0], False, WHITE)
+            col_3_score = self.myfont.render(array_el[1], False, WHITE)
             screen.blit(col_2_name,[sizePos[0] + 60 + sizePos[3] / 3,sizePos[1] + topScorer_height + 30 + (i * 30)])
             screen.blit(col_3_score,[sizePos[0] + 90 + sizePos[3] / 3 * 2,sizePos[1] + topScorer_height + 30 + (i * 30)])
 
@@ -92,7 +118,8 @@ class Menu:
 
 class InputBox:
 
-    def __init__(self, x, y, w, h, text=''):
+    def __init__(self, x, y, w, h, game, text=''):
+        self.game = game
         self.rect = pygame.Rect(x, y, w, h)
         self.color = (199, 199, 199)
         self.text = text
@@ -106,14 +133,15 @@ class InputBox:
             if self.rect.collidepoint(event.pos):
                 # Toggle the active variable.
                 self.active = not self.active
+                self.text = ''
             else:
                 self.active = False
             # Change the current color of the input box.
-            self.color = (245, 245, 245) if self.active else (199, 199, 199)
+            self.color = (173, 144, 102) if self.active else (199, 199, 199)
         if event.type == pygame.KEYDOWN:
             if self.active:
                 if event.key == pygame.K_RETURN:
-                    print(self.text)
+                    self.game.player_name = self.text
                     self.text = ''
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
@@ -127,8 +155,8 @@ class InputBox:
         width = max(200, self.txt_surface.get_width()+10)
         self.rect.w = width
 
-    def draw(self, screen):
+    def draw(self):
         # Blit the text.
-        screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
+        self.game.screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
-        pygame.draw.rect(screen, self.color, self.rect, 2)
+        pygame.draw.rect(self.game.screen, self.color, self.rect, 2)

@@ -29,11 +29,13 @@ class ItemManager:
         randomItem1 = Item(self.game.screen)
         randomItem2 = Item(self.game.screen)
         randomItem3 = Item(self.game.screen)
-        
+        randomItem4 = Item(self.game.screen)
+
         self.items = []
         self.items.append(randomItem1)
         self.items.append(randomItem2)
         self.items.append(randomItem3)
+        self.items.append(randomItem4)
 
     def draw_all(self):
         for item in self.items:

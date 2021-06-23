@@ -25,7 +25,7 @@ class Game:
         self.running = True
         self.playing = False
         self.state = "MENU"
-   
+        self.player_name = ""
     
     def render_background(self):
         bg = pygame.image.load("resources/beach.jpg")
@@ -66,13 +66,17 @@ class Game:
                 try:
                     self.game_Logic() 
                 except Exception as e:
-                    self.stop_background_music()
-                    sound = pygame.mixer.Sound("resources/gameover.mp3")
-                    pygame.mixer.Sound.play(sound)
-                    self.playing = False
-                    self.state = "GAMEOVER"
-                time.sleep(0.1)
+                    self.game_over()
+                time.sleep(0.125)
 
+
+    def game_over(self):
+        self.stop_background_music()
+        sound = pygame.mixer.Sound("resources/gameover.mp3")
+        pygame.mixer.Sound.play(sound)
+        self.playing = False
+        self.state = "GAMEOVER"
+        print(self.player_name)
 
     def init_start(self):
         self.play_background_music()
@@ -95,8 +99,11 @@ class Game:
         print("stop music")
         #pygame.mixer.music.stop()
 
-    def check_events(self):
+    def check_events(self, input_box=None):
         for event in pygame.event.get():
+            if self.state == "ENTERNAME":
+                input_box.handle_event(event)
+            
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.playing = False
@@ -117,3 +124,5 @@ class Game:
                 self.running = False
                 self.playing = False
                 pygame.quit()
+            
+            
