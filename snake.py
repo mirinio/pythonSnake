@@ -101,13 +101,26 @@ class Snake:
 
 
     def move_left(self):
-        self.x[0] -= BLOCK_SIZE
+        if self.x[0] < 0:
+            self.x[0] = SCREEN_WIDTH
+        else:
+            self.x[0] -= BLOCK_SIZE
     def move_right(self):
-        self.x[0] += BLOCK_SIZE
+        if self.x[0] > SCREEN_WIDTH:
+            self.x[0] = 0
+        else:
+            self.x[0] += BLOCK_SIZE
+
     def move_up(self):
-        self.y[0] -= BLOCK_SIZE
+        if self.y[0] < 0:
+            self.y[0] = SCREEN_HEIGHT
+        else:
+            self.y[0] -= BLOCK_SIZE
     def move_down(self):
-        self.y[0] += BLOCK_SIZE
+        if self.y[0] > SCREEN_HEIGHT:
+            self.y[0] = 0
+        else:
+            self.y[0] += BLOCK_SIZE
 
     def move(self):
 
