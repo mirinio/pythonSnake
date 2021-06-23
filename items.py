@@ -19,8 +19,8 @@ class Item:
 
     def move_random(self):
         """suche einen random ort für das item """
-        self.x = random.randint(0, 28) * BLOCK_SIZE
-        self.y = random.randint(0, 17) * BLOCK_SIZE
+        self.x = random.randint(0, 18) * BLOCK_SIZE
+        self.y = random.randint(0, 12) * BLOCK_SIZE
 
 class ItemManager:
     """Zeichne alle Items und suche random orte für alle"""

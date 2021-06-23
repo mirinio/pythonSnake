@@ -65,9 +65,10 @@ class Menu:
         with open('highscore.txt', 'r+') as f:
             f.truncate(0)
             for i, player in enumerate(sorted_scores):
-                f.write(player[0] + "," + player[1] + "\n")
-                if i == 10:
+                if i == 5:
                     break
+                f.write(player[0] + "," + player[1] + "\n")
+                
 
     def start_game(self):
         """leitet den spiel start in gang mittels 

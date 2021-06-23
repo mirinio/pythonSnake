@@ -25,6 +25,7 @@ class Game:
         self.playing = False
         self.state = "MENU"
         self.player_name = ""
+        
     
     def render_background(self):
         """zeichnet den hintergrund"""
@@ -35,8 +36,9 @@ class Game:
         """Hier ist die spiel logik, z.b. kollision von item und schlange"""
         for item in self.itemManager.items:
             if self.is_collision(self.snake.x[0], self.snake.y[0], item.x, item.y):
-                #sound = pygame.mixer.Sound("resources/eat.mp3")
-                #pygame.mixer.Sound.play(sound)
+                sound = pygame.mixer.Sound("resources/eat.mp3")
+                sound.set_volume(0.2)
+                pygame.mixer.Sound.play(sound)
                 item.move_random()
                 self.snake.grow()
 
@@ -75,6 +77,7 @@ class Game:
         """game over logik der das ende der runde einleutet"""
         self.stop_background_music()
         sound = pygame.mixer.Sound("resources/gameover.mp3")
+        sound.set_volume(0.2)
         pygame.mixer.Sound.play(sound)
         self.playing = False
         self.state = "GAMEOVER"
@@ -97,6 +100,7 @@ class Game:
     def play_background_music(self):
         """Spielt die hintergrund musik ab"""
         pygame.mixer.music.load("resources/sound.mp3")
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play()
 
     def stop_background_music(self):

@@ -35,8 +35,8 @@ class Snake:
         else:
             self.length = length
         
-        self.x = [randint(0, 28) * BLOCK_SIZE] * length
-        self.y = [randint(0, 17) * BLOCK_SIZE] * length
+        self.x = [randint(0, 18) * BLOCK_SIZE] * length
+        self.y = [randint(0, 12) * BLOCK_SIZE] * length
  
         self.x[1] = self.x[0] - 1
         self.x[2] = self.x[1] - 1
