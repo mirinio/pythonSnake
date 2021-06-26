@@ -106,28 +106,28 @@ class Snake:
 
     def move_left(self):
         """bewegt die schlange nach links"""
-        if self.x[0] < 0:
-            self.x[0] = SCREEN_WIDTH
+        if self.x[0] < BLOCK_SIZE:
+            self.x[0] = SCREEN_WIDTH - BLOCK_SIZE
         else:
             self.x[0] -= BLOCK_SIZE
 
     def move_right(self):
         """bewegt die schlange nach rechts"""
-        if self.x[0] > SCREEN_WIDTH:
-            self.x[0] = 0
+        if self.x[0] > SCREEN_WIDTH - BLOCK_SIZE:
+            self.x[0] = 1
         else:
             self.x[0] += BLOCK_SIZE
 
     def move_up(self):
         """bewegt die schlange nach oben"""
-        if self.y[0] < 0:
-            self.y[0] = SCREEN_HEIGHT
+        if self.y[0] < BLOCK_SIZE:
+            self.y[0] = SCREEN_HEIGHT - BLOCK_SIZE
         else:
             self.y[0] -= BLOCK_SIZE
 
     def move_down(self):
         """bewegt die schlange nach unten"""
-        if self.y[0] > SCREEN_HEIGHT:
+        if self.y[0] > SCREEN_HEIGHT - BLOCK_SIZE:
             self.y[0] = 0
         else:
             self.y[0] += BLOCK_SIZE
